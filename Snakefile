@@ -1,7 +1,7 @@
 NUM=[1,2]
 THREADS = 16
 SPADES_MEM = 72
-
+configfile: "config.json"
 
 rule trimming:
     input:
@@ -50,7 +50,7 @@ rule get16s:
 rule blastdata:
     input:
         "genome16calculated/{sample}_calculated_16s",
-        "16sgiven/{sample}_16s"
+        "{config["s16s"]}/{sample}_16s"
     output:
         "blastData/{sample}_blastinfo"
     shell:
