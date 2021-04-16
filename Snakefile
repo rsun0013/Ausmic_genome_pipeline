@@ -50,7 +50,7 @@ rule get16s:
 rule blastdata:
     input:
         "genome16calculated/{sample}_calculated_16s",
-        "{config["s16s"]}/{sample}_16s"
+        config["16s"]+"/{sample}_16s"
     output:
         "blastData/{sample}_blastinfo"
     shell:
