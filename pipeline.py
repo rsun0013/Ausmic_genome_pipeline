@@ -35,8 +35,8 @@ config_dict = {}
 config_dict["16s"] = s16s
 with open("config.json","w") as json_file:
     json.dump(config_dict,json_file)
-
-output = "snakemake -p --cores 8 "
+snakefileLocation = "/usr/bin/pipeline/Ausmic_genome_pipeline/Snakefile"
+output = "snakemake -s "+snakefileLocation+" -p --cores 8 "
 for i in input_f:
     output += "blastData/{}_blastinfo ".format(i)
 os.system(output)
