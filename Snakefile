@@ -11,7 +11,8 @@ rule trimming:
         "trimmed/{sample}_R1_001_val_1.fq.gz",
         "trimmed/{sample}_R2_001_val_2.fq.gz"
     shell:
-        "TrimGalore-0.6.6/trim_galore --paired --length 80 --output_dir ~/trimmed --fastqc {input.r1} {input.r2}"
+        "trim_galore --paired --length 80 --output_dir ./trimmed --fastqc {input.r1} {input.r2}"
+
 
 rule spades:
     input:

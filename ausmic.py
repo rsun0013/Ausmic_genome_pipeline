@@ -14,7 +14,7 @@ import mysql.connector
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'root'
 MYSQL_PWD = '4*4Genomes'
-MYSQL_DB = 'ausmicc_001'
+MYSQL_DB = 'genome_sequencing'
 
 
 ### Function to connect to the database
@@ -32,7 +32,7 @@ def db_connection():
         errmsg = "ERROR: Unable to connect to the database"
         print(errmsg)
         exit(-1)
-connection = db_connection()
+
 
 ### Function to get a tupple of the editable column names
 ### excludes the first (idxxx) and the last (timestamp) columns
@@ -80,3 +80,4 @@ def get_ids(names, table, cursor):
             names2ids[name] = wanted_ids[0][0]
 
     return (names2ids)
+
