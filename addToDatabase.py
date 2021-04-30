@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import ausmic
 connection = ausmic.db_connection()
 cursor = connection.cursor()
