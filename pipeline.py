@@ -24,6 +24,13 @@ if input_f is None:
             i = i.strip("_R2_001.fastq.gz")
             input_f.append(i)
     input_f = list(set(input_f))
+for i in input_f:
+    if not os.path.isfile(input_folder+"/"+i+"_R1_001.fastq.gz") or not os.path.isfile(input_folder+"/"+i+"_R2_001.fastq.gz"):
+        print("fast q file for sample {} is missing, please ensure that both files exist in given folder, or remove the sample from folder".format(i))
+        exit()
+    if not os.path.isfile("{}/{}_16s".format(s16s,i)):
+        print(" the 16s file for sample {} is not in the specified folder for 16s files")
+        exit()
 
 """os.system("echo 'export PATH=$PATH:/usr/bin/SPAdes-3.15.2-Linux/bin' >> ~/.bashrc")
 os.system("echo 'export PATH=$PATH:/home/vmar0011/anaconda3/bin/checkm' >> ~/.bashrc")
