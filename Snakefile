@@ -38,7 +38,7 @@ rule checkm:
         "checkmOut/{sample}_checkm_out",
         directory("{sample}_checkmOut/")
     shell:
-        "checkm lineage_wf -f checkmOut/{wildcards.sample}_checkm_out -t 2 -x fna spadesOut{wildcards.sample} {wildcards.sample}_checkmOut"
+        "checkm lineage_wf -f checkmOut/{wildcards.sample}_checkm_out -t 1 -x fna spadesOut{wildcards.sample} {wildcards.sample}_checkmOut"
 
 rule get16s:
     input:

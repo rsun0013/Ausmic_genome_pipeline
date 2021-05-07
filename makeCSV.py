@@ -1,4 +1,5 @@
 #!/usr/bin/python3.7
+import argparse
 import os
 import ausmic
 
@@ -25,15 +26,31 @@ def readblastOutput(filename):
     data = data.split("\t")
     return data[0],data[1],data[2]
 
+#parse the arguments and set thresholds
+def parseInputs():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--comp", action="store", dest="comp",default = 95,
+                        help="enter a value for the comp threshold if dont want default", required=False)
+    parser.add_argument("--cont", action="store", dest="cont",default = 0.5,
+                        help="enter a value for the cont threshold if dont want default", required=False)
+    parser.add_argument("--sim", action="store", dest="sim",default=99,
+                        help="enter a value for the similarity threshold if dont want default", required=False)
+    parser.add_argument("--overlap", action="store", dest="overlap",default=80,
+                        help="enter a value for the overlap threshold if dont want default", required=False)
+
+    args = parser.parse_args()
+
+    return args.comp,args.cont,args.sim,args.overlap
 def main():
+
+
     stats = {}
     path = os.getcwd()
-    comp_threshold = 95
-    cont_threshold = 0.5
-    sim_threshold = 99
-    overlap_threshold = 80
+    # set the thresholds
+    comp_threshold,cont_threshold,sim_threshold,overlap_threshold = parseInputs()
     os.chdir(path=path + "/checkmOut")
     checkMfiles = os.listdir(path=path + "/checkmOut")
+
     # process output from each checkm file
     for i in checkMfiles:
         comp, cont = readcheckmOutput(i)
