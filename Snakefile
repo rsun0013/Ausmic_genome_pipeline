@@ -36,7 +36,7 @@ rule checkm:
         "spadesOut{sample}/contigs.fna"
     output:
         "checkmOut/{sample}_checkm_out",
-        "{sample}_checkmOut/"
+        directory("{sample}_checkmOut/")
     shell:
         "checkm lineage_wf -f checkmOut/{wildcards.sample}_checkm_out -t 2 -x fna spadesOut{wildcards.sample} {wildcards.sample}_checkmOut"
 

@@ -55,9 +55,29 @@ def main():
         stats[i.strip("_blastinfo")][1] = sim#similarity
         stats[i.strip("_blastinfo")][2] = float(overlap) / float(total_len)#%overlap
         if float(sim) < sim_threshold or float(overlap) < overlap_threshold:
-            stats[i.strip("_blastinfo")][0] = "N"
+            stats[i.strip("_blastinfo")][5] = "N"
     outfile = open(path + "/pipelineStats.csv", "w")
     outfile.write("Genome name,similarity,overlap,completness,contigcount,pass")
+
+    # print num of passed samples and names of failed samples
+    passed=0
+    failed = 0
+    failedSamples = []
+    for i in stats.keys():
+        sample = stats[i]
+        if sample[5] == "Y":
+            passed += 1
+        else:
+            failed += 1
+            failedSamples.append(stats[0])
+
+    if len(failedSamples) >0:
+        print("Samples that failed qc:")
+        for i in failedSamples:
+            print(i)
+        print("")
+    print("num of samples passing qc: {}".format(passed))
+
 
     # set up connection to dc b
     connection = ausmic.db_connection()
