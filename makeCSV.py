@@ -2,6 +2,7 @@
 import os
 import ausmic
 
+# process output from checkm
 def readcheckmOutput(filename):
     f = open(filename, "r")
     f.readline()
@@ -16,7 +17,7 @@ def readcheckmOutput(filename):
     return comp,cont
 
 
-
+# read the output produced by blast
 def readblastOutput(filename):
     f = open(filename, "r")
     data = f.readline()
@@ -33,6 +34,7 @@ def main():
     overlap_threshold = 80
     os.chdir(path=path + "/checkmOut")
     checkMfiles = os.listdir(path=path + "/checkmOut")
+    # process output from each checkm file
     for i in checkMfiles:
         comp, cont = readcheckmOutput(i)
         stats[i.strip("_checkm_out")] = [0 for j in range(6)]
@@ -47,7 +49,7 @@ def main():
 
     os.chdir(path=path + "/blastData")
     blastfiles = os.listdir(path=path + "/blastData")
-
+    # process each of the blast files output
     for i in blastfiles:
         overlap, sim, total_len = readblastOutput(i)
         stats[i.strip("_blastinfo")][1] = sim#similarity
@@ -55,6 +57,7 @@ def main():
         if float(sim) < sim_threshold or float(overlap) < overlap_threshold:
             stats[i.strip("_blastinfo")][0] = "N"
     outfile = open(path + "/pipelineStats.csv", "w")
+    outfile.write("Genome name,similarity,overlap,completness,contigcount,pass")
 
     # set up connection to dc b
     connection = ausmic.db_connection()
