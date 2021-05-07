@@ -2,7 +2,7 @@ NUM=[1,2]
 THREADS = 16
 SPADES_MEM = 72
 configfile: "config.json"
-import makeCSV
+
 rule trimming:
     input:
         r1="{sample}_R1_001.fastq.gz",
@@ -56,11 +56,11 @@ rule blastdata:
         "blastData/{sample}_blastinfo"
     shell:
         "blastn -subject {input[1]} -query {input[0]} -out {output} -outfmt '6 length pident slen'"
-rule csv:
+"""rule csv:
     input:
         "blastData/{sample}_bltinfo",
         "checkmOut/{sample}_checkm_out"
     output:
         "pipelineStats.csv"
     script:
-        makeCSV.main()
+        makeCSV.main()"""

@@ -40,7 +40,8 @@ snakefileLocation = "/usr/bin/pipeline/Ausmic_genome_pipeline/Snakefile"
 output = "snakemake -s "+snakefileLocation+" -p --cores 8 "
 for i in input_f:
     output += "blastData/{}_blastinfo ".format(i)
-output += "pipelineStats.csv"
+    output += "checkmOut/{}_checkm_out ".format(i)
+
 os.system(output)
 
-#makeCSV.main()
+makeCSV.main()
