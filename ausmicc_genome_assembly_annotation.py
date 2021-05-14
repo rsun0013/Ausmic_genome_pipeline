@@ -3,7 +3,7 @@ import os
 import makeCSV
 import argparse
 import json
-
+import path_structure
 # need to specify the input names of the fasta files to analyse in the input list
 parser = argparse.ArgumentParser()
 parser.add_argument("-f" ,action="store",dest="input_folder",help = "enter the folder where your fastq input files are",required = True)
@@ -15,6 +15,7 @@ input_f = args.name
 input_folder = args.input_folder
 s16s = args.s16s
 os.chdir(input_folder)
+# choose the input files by scanning those in folder if not specified by the user
 if input_f is None:
     input_f = []
     input_files = os.listdir()
@@ -24,6 +25,7 @@ if input_f is None:
             i = i.strip("_R2_001.fastq.gz")
             input_f.append(i)
     input_f = list(set(input_f))
+
 for i in input_f:
     if not os.path.isfile(input_folder+"/"+i+"_R1_001.fastq.gz") or not os.path.isfile(input_folder+"/"+i+"_R2_001.fastq.gz"):
         print("fast q file for sample {} is missing, please ensure that both files exist in given folder, or remove the sample from folder".format(i))
@@ -50,5 +52,9 @@ for i in input_f:
     output += "checkmOut/{}_checkm_out ".format(i)
 
 os.system(output)
+def copyToPath():
+    paths = path_structure.genome_paths()
+    os.system("cp ")
+    paths.paired
 
 makeCSV.main()

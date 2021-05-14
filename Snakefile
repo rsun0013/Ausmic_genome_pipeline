@@ -13,6 +13,25 @@ rule trimming:
     shell:
         "trim_galore --paired --length 80 --output_dir ./trimmed --fastqc {input.r1} {input.r2}"
 
+rule storeRaw:# puts the input genome in correct location in storage server
+    input:
+        r1="{sample}_R1_001.fastq.gz",
+        r2="{sample}_R2_001.fastq.gz"
+    output:
+        r1=config["rawStore"]+"/{sample}_R1_001.fastq.gz",
+        r2=config["rawStore"]+"/{sample}_R2_001.fastq.gz"
+    shell:
+        "cp {input.r1} {output.r1};cp {input.r2} {output.r2}"
+
+rule storePaired:# puts the trimmed paired output in correct location in storage server
+    input:
+        r1="trimmed/{sample}_R1_001_val_1.fq.gz",
+        r2="trimmed/{sample}_R2_001_val_2.fq.gz"
+    output:
+        r1=config["pairedStore"]+"/{sample}_R1_001_val_1.fq.gz",
+        r2=config["pairedStore"]+"/{sample}_R2_001_val_2.fq.gz"
+    shell:
+        "cp {input.r1} {output.r1};cp {input.r2} {output.r2}"
 
 rule spades:
     input:
@@ -22,6 +41,14 @@ rule spades:
         output="spadesOut{sample}/contigs.fasta"
     shell:
         "spades.py -1 {input[0]} -2 {input[1]} --cov-cutoff 10 --careful -t {THREADS} -m {SPADES_MEM} -o spadesOut{wildcards.sample}"
+
+rule storeSpades:
+    input:
+        r1="spadesOut{sample}/contigs.fasta"
+    output:
+        r1 = config["contigStore"]+"/{sample}contig.fasta"
+    shell:
+        "cp {input.r1} {output.r1}"
 
 rule rename:
     input:
@@ -38,7 +65,7 @@ rule checkm:
         "checkmOut/{sample}_checkm_out",
         directory("{sample}_checkmOut/")
     shell:
-        "checkm lineage_wf -f checkmOut/{wildcards.sample}_checkm_out -t 1 -x fna spadesOut{wildcards.sample} {wildcards.sample}_checkmOut"
+        "checkm lineage_wf -f checkmOut/{wildcards.sample}_checkm_out -t 1 -x fna spadesOut{wildcards.sample} {wildcards.sample}_checkmOut --"
 
 rule get16s:
     input:
@@ -59,9 +86,9 @@ rule blastdata:
 
 rule annotate:
     input:
-        ""
+        "spadesOut{sample}/contigs.fna"
     output:
-        ""
+        "annotation/{sample}"
     shell:
         "prokka 1_CC00064_assembly/assembly.fasta --outdir 2_annotation/CC00064 --centre Hudson —compliant"
 """rule csv:

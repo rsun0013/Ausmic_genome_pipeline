@@ -110,8 +110,4 @@ def main():
     # print(stats)
 
 
-def copyToPath():
-    paths = path_structure.genome_paths()
-    os.system("cp ")
-    paths.paired
 
