@@ -5,8 +5,8 @@ configfile: "config.json"
 
 rule trimming:
     input:
-        r1="{sample}_R1_001.fastq.gz",
-        r2="{sample}_R2_001.fastq.gz"
+        r1=config["rawStore"] + "/{sample}_R1_001.fastq.gz",
+        r2=config["rawStore"] + "/{sample}_R2_001.fastq.gz"
     output:
         "trimmed/{sample}_R1_001_val_1.fq.gz",
         "trimmed/{sample}_R2_001_val_2.fq.gz"
@@ -35,12 +35,12 @@ rule storePaired:# puts the trimmed paired output in correct location in storage
 
 rule spades:
     input:
-        "trimmed/{sample}_R1_001_val_1.fq.gz",
-        "trimmed/{sample}_R2_001_val_2.fq.gz"
+        r1=config["pairedStore"]+"/{sample}_R1_001_val_1.fq.gz",
+        r2=config["pairedStore"]+"/{sample}_R2_001_val_2.fq.gz"
     output:
         output="spadesOut{sample}/contigs.fasta"
     shell:
-        "spades.py -1 {input[0]} -2 {input[1]} --cov-cutoff 10 --careful -t {THREADS} -m {SPADES_MEM} -o spadesOut{wildcards.sample}"
+        "spades.py -1 {input.r1} -2 {input.r2} --cov-cutoff 10 --careful -t {THREADS} -m {SPADES_MEM} -o spadesOut{wildcards.sample}"
 
 rule storeSpades:
     input:
@@ -52,7 +52,7 @@ rule storeSpades:
 
 rule rename:
     input:
-        "spadesOut{sample}/contigs.fasta"
+        "spadesOut{sample}/contigs.fasta",config["contigStore"]+"/{sample}contig.fasta"
     output:
         "spadesOut{sample}/contigs.fna"
     shell:
