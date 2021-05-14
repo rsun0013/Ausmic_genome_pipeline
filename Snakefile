@@ -78,7 +78,8 @@ rule get16s:
 rule blastdata:
     input:
         "genome16calculated/{sample}_calculated_16s",
-        config["16s"]+"/{sample}_16s"
+        config["16s"]+"/{sample}_16s",
+        config["storeAnnotate"] + "/{sample}"
     output:
         "blastData/{sample}_blastinfo"
     shell:
@@ -90,7 +91,15 @@ rule annotate:
     output:
         "annotation/{sample}"
     shell:
-        "prokka 1_CC00064_assembly/assembly.fasta --outdir 2_annotation/CC00064 --centre Hudson —compliant"
+        "prokka {input[0]} --outdir {output[0]} --centre Hudson —compliant"
+
+rule storeAnnotate:
+    input:
+        "annotation/{sample}"
+    output:
+        config["storeAnnotate"]+"/{sample}"
+    shell:
+        "cp {input[0]} {output[0]}"
 """rule csv:
     input:
         "blastData/{sample}_bltinfo",
