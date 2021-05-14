@@ -3,7 +3,10 @@ import os
 import makeCSV
 import argparse
 import json
+import sys
+sys.path.append("/usr/bin/DB_SCRIPTS/ausmicc_scripts")#add the path to the ausmicc scripts
 import path_structure
+import sys
 # need to specify the input names of the fasta files to analyse in the input list
 parser = argparse.ArgumentParser()
 parser.add_argument("-f" ,action="store",dest="input_folder",help = "enter the folder where your fastq input files are",required = True)
@@ -33,6 +36,7 @@ for i in input_f:
     if not os.path.isfile("{}/{}_16s".format(s16s,i)):
         print(" the 16s file for sample {} is not in the specified folder for 16s files")
         exit()
+
 def addPathsToConfig(config_dict):
     paths = path_structure.genome_paths()
     os.system("cp ")
