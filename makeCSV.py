@@ -2,7 +2,7 @@
 import argparse
 import os
 import ausmicc_f_db_connection
-import path_structure
+
 
 # process output from checkm
 def readcheckmOutput(filename):
