@@ -1,7 +1,8 @@
 #!/usr/bin/python3.7
 import argparse
 import os
-import ausmic
+import ausmicc_f_db_connection
+import path_structure
 
 # process output from checkm
 def readcheckmOutput(filename):
@@ -41,9 +42,8 @@ def parseInputs():
     args = parser.parse_args()
 
     return args.comp,args.cont,args.sim,args.overlap
+
 def main():
-
-
     stats = {}
     path = os.getcwd()
     # set the thresholds
@@ -88,6 +88,7 @@ def main():
             failed += 1
             failedSamples.append(stats[0])
 
+    # print the number of samples that pass and names of failed samples
     if len(failedSamples) >0:
         print("Samples that failed qc:")
         for i in failedSamples:
@@ -97,7 +98,7 @@ def main():
 
 
     # set up connection to dc b
-    connection = ausmic.db_connection()
+    connection = ausmicc_f_db_connection.db_connection()
     cursor = connection.cursor()
     # file location = path+"spadesOut"+stats[i][0]
     for i in stats:
@@ -109,5 +110,8 @@ def main():
     # print(stats)
 
 
-
+def copyToPath():
+    paths = path_structure.genome_paths()
+    os.system("cp ")
+    paths.paired
 
