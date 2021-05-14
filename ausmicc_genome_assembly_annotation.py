@@ -43,6 +43,8 @@ def addPathsToConfig(config_dict):
     config_dict["contigStore"] = paths.contigs
     config_dict["rawStore"] = paths.raw_reads
     config_dict["pairedStore"] = paths.paired
+    config_dict["storeAnnotate"] = paths.annotations
+
 """os.system("echo 'export PATH=$PATH:/usr/bin/SPAdes-3.15.2-Linux/bin' >> ~/.bashrc")
 os.system("echo 'export PATH=$PATH:/home/vmar0011/anaconda3/bin/checkm' >> ~/.bashrc")
 os.system("echo 'export PATH=$PATH:/home/rsun0013/TrimGalore-0.6.6/' >> ~/.bashrc")
