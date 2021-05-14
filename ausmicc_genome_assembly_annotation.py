@@ -33,7 +33,12 @@ for i in input_f:
     if not os.path.isfile("{}/{}_16s".format(s16s,i)):
         print(" the 16s file for sample {} is not in the specified folder for 16s files")
         exit()
-
+def addPathsToConfig(config_dict):
+    paths = path_structure.genome_paths()
+    os.system("cp ")
+    config_dict["contigStore"] = paths.contigs
+    config_dict["rawStore"] = paths.raw_reads
+    config_dict["pairedStore"] = paths.paired
 """os.system("echo 'export PATH=$PATH:/usr/bin/SPAdes-3.15.2-Linux/bin' >> ~/.bashrc")
 os.system("echo 'export PATH=$PATH:/home/vmar0011/anaconda3/bin/checkm' >> ~/.bashrc")
 os.system("echo 'export PATH=$PATH:/home/rsun0013/TrimGalore-0.6.6/' >> ~/.bashrc")
@@ -43,6 +48,7 @@ os.system("cat ~/.bashrc")
 os.system("echo $PATH")"""
 config_dict = {}
 config_dict["16s"] = s16s
+addPathsToConfig(config_dict)
 with open("config.json","w") as json_file:
     json.dump(config_dict,json_file)
 snakefileLocation = "/usr/bin/pipeline/Ausmic_genome_pipeline/Snakefile"
@@ -52,9 +58,6 @@ for i in input_f:
     output += "checkmOut/{}_checkm_out ".format(i)
 
 os.system(output)
-def copyToPath():
-    paths = path_structure.genome_paths()
-    os.system("cp ")
-    paths.paired
+
 
 makeCSV.main()
