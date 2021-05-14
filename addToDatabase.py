@@ -1,11 +1,11 @@
 #!/usr/bin/python3.7
-import ausmic
-connection = ausmic.db_connection()
+import ausmicc_f_db_connection
+connection = ausmicc_f_db_connection.db_connection()
 cursor = connection.cursor()
 cursor.execute("SHOW TABLES;")
 
 print(cursor.fetchall())
-print(ausmic.get_col_names("genome",cursor))
+print(ausmicc_f_db_connection.get_col_names("genome", cursor))
 #print(ausmic.get_col_names("sample",cursor))
 #cursor.execute("INSERT INTO GENOME (idisolate,contigfastalocation,length,contigcount,completeness) VALUES ({},{},{},{},{})".foramt())
 #cursor.execute("INSERT INTO genome (idisolate,idpure_culture,n50,contigfastalocation,length,contigcount,completeness) VALUES (1,0,4,'/home',1,1,1);")

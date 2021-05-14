@@ -56,6 +56,14 @@ rule blastdata:
         "blastData/{sample}_blastinfo"
     shell:
         "blastn -subject {input[1]} -query {input[0]} -out {output} -outfmt '6 length pident slen'"
+
+rule annotate:
+    input:
+        ""
+    output:
+        ""
+    shell:
+        "prokka 1_CC00064_assembly/assembly.fasta --outdir 2_annotation/CC00064 --centre Hudson —compliant"
 """rule csv:
     input:
         "blastData/{sample}_bltinfo",
